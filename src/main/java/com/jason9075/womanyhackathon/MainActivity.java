@@ -16,7 +16,10 @@ import com.jason9075.womanyhackathon.manager.RetrofitManager;
 import com.jason9075.womanyhackathon.manager.SharedPreferencesManager;
 import com.jason9075.womanyhackathon.model.GoogleMapLocationResult;
 import com.jason9075.womanyhackathon.model.StudentLocationData;
+import com.jason9075.womanyhackathon.utils.DateFormatCached;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
 
@@ -102,6 +105,8 @@ public class MainActivity extends AppCompatActivity {
                             studentLocationData.setLatitude(currentLocation.getLatitude());
                             studentLocationData.setLongitude(currentLocation.getLongitude());
                             studentLocationData.setAddress(RetrofitManager.INSTANCE.getLastAddress());
+                            SimpleDateFormat formatter = DateFormatCached.INSTANCE.getFormat("yyyy/MM/dd HH:mm:ss");
+                            studentLocationData.setDate(formatter.format(new Date()));
                             mFirebaseDatabaseReference.child(STUDENT_LOCATION_TABLE).push().setValue(studentLocationData);
                         }
 

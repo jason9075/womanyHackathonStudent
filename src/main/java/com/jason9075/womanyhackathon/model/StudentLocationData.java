@@ -12,6 +12,7 @@ public class StudentLocationData {
     private double longitude;//緯度
 
     private String address;
+    private String date;
 
     public StudentLocationData(String id,String studentName) {
         this.id = id;
@@ -29,6 +30,10 @@ public class StudentLocationData {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getId() {
@@ -49,5 +54,9 @@ public class StudentLocationData {
 
     public String getAddress() {
         return address;
+    }
+
+    public String getDate() {
+        return date;
     }
 }
