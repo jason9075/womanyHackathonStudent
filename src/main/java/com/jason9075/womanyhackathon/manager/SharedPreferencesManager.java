@@ -13,6 +13,7 @@ public class SharedPreferencesManager {
 
     private static final String PREF_USER_TOKEN = "PREF_USER_TOKEN";
     private static final String PREF_USER_NAME = "PREF_USER_NAME";
+    private static final String PREF_UPDATE_MINS = "PREF_UPDATE_MINS";
 
     private final Context context;
 
@@ -51,6 +52,18 @@ public class SharedPreferencesManager {
         context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
                 .edit()
                 .putString(PREF_USER_NAME, token)
+                .apply();
+    }
+
+    public int getUpdateMinus() {
+        return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+                .getInt(PREF_UPDATE_MINS, 15);
+    }
+
+    public void setUpdateMinus(int minus) {
+        context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putInt(PREF_UPDATE_MINS, minus)
                 .apply();
     }
 

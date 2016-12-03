@@ -5,10 +5,9 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -24,8 +23,8 @@ import java.util.concurrent.TimeUnit;
 import javax.inject.Inject;
 
 import rx.Observable;
+import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.functions.Func1;
 import rx.subscriptions.CompositeSubscription;
 
@@ -43,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
     private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     private TextView timeTextView;
+    private TextView userTextView;
+    private ImageButton internetStatusButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,9 @@ public class MainActivity extends AppCompatActivity {
 
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
         timeTextView = (TextView) findViewById(R.id.time_text_view);
+        userTextView = (TextView) findViewById(R.id.user_name_textview);
         ImageButton settingButton = (ImageButton) findViewById(R.id.setting_button);
+        internetStatusButton = (ImageButton) findViewById(R.id.internet_status_button);
 
         settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        Observable.just(1)
+        compositeSubscription.add(Observable.just(1)
                 .delay(10, TimeUnit.SECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
                 .flatMap(new Func1<Object, Observable<GoogleMapLocationResult>>() {
@@ -78,9 +81,20 @@ public class MainActivity extends AppCompatActivity {
                         return observable.repeat();
                     }
                 })
-                .subscribe(new Action1<GoogleMapLocationResult>() {
+                .subscribe(new Subscriber<GoogleMapLocationResult>() {
                     @Override
-                    public void call(GoogleMapLocationResult locationResult) {
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        internetStatusButton.setSelected(true);
+                        Toast.makeText(MainActivity.this, "網路連線錯誤", Toast.LENGTH_LONG).show();
+                    }
+
+                    @Override
+                    public void onNext(GoogleMapLocationResult locationResult) {
                         Location currentLocation = MyLocationManager.tryGetLastLocation();
                         if (currentLocation != null && !pref.getUserName().equals("")) {
                             System.out.println(">>>送出一筆資料");
@@ -90,11 +104,24 @@ public class MainActivity extends AppCompatActivity {
                             studentLocationData.setAddress(RetrofitManager.INSTANCE.getLastAddress());
                             mFirebaseDatabaseReference.child(STUDENT_LOCATION_TABLE).push().setValue(studentLocationData);
                         }
+
                     }
-                });
+                }));
 
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
 
+        timeTextView.setText(pref.getUpdateMinus() + "");
+        userTextView.setText(pref.getUserName());
+    }
+
+    @Override
+    protected void onDestroy() {
+        compositeSubscription.unsubscribe();
+        super.onDestroy();
+    }
 }

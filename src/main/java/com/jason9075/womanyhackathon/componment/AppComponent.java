@@ -2,6 +2,7 @@ package com.jason9075.womanyhackathon.componment;
 
 import com.jason9075.womanyhackathon.MainActivity;
 import com.jason9075.womanyhackathon.MyApp;
+import com.jason9075.womanyhackathon.SettingActivity;
 import com.jason9075.womanyhackathon.module.MyLocationManagerModule;
 import com.jason9075.womanyhackathon.module.SharedPrefModule;
 
@@ -25,5 +26,7 @@ public interface AppComponent {
     /* Activity */
 
     void inject(MainActivity mainActivity);
+
+    void inject(SettingActivity settingActivity);
 
 }
