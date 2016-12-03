@@ -42,6 +42,7 @@ public class MyLocationManager implements GoogleApiClient.ConnectionCallbacks, L
     @Override
     public void onConnected(Bundle bundle) {
         start();
+
     }
 
     @Override
