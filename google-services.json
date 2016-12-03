@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "720455308568",
+    "firebase_url": "https://womany-hackathon.firebaseio.com",
+    "project_id": "womany-hackathon",
+    "storage_bucket": "womany-hackathon.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720455308568:android:a3b6e85e3368169c",
+        "android_client_info": {
+          "package_name": "com.jason9075.womanyhackathon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720455308568-av526qn9ijgrlgksop9uiaago0bjrqnr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDyyc1_ICRThDA4Hci-o1L19wTzv26bRFg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
