@@ -13,5 +13,5 @@ import rx.Observable;
 public interface LocationAddressService {
 
     @GET("/maps/api/geocode/json")
-    Observable<GoogleMapLocationResult> requestAddress(@Query("latlng") String latlng);
+    Observable<GoogleMapLocationResult> requestAddress(@Query("latlng") String latlng,@Query("language") String language);
 }

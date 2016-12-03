@@ -24,7 +24,7 @@ public enum RetrofitManager {
 
     private Retrofit retrofit;
     private LocationAddressService addressService;
-    private String lastAddress = "";
+    private String lastAddress = "無地址";
 
     RetrofitManager() {
         retrofit = new Retrofit.Builder()
@@ -36,19 +36,22 @@ public enum RetrofitManager {
         addressService = retrofit.create(LocationAddressService.class);
     }
 
-    public Observable<GoogleMapLocationResult> requestAddress(Location location, final boolean isSave) {
-        if(location == null)
+    public Observable<GoogleMapLocationResult> requestAddress(final Location location, final boolean isSave) {
+        if (location == null)
             return Observable.just(new GoogleMapLocationResult());
-        return addressService.requestAddress(location.getLatitude() + "," + location.getLongitude())
+        return addressService.requestAddress(location.getLatitude() + "," + location.getLongitude(), "zh-TW")
                 .map(new Func1<GoogleMapLocationResult, GoogleMapLocationResult>() {
                     @Override
                     public GoogleMapLocationResult call(GoogleMapLocationResult googleMapLocationResult) {
-                        if(!isSave)
+                        if (!isSave)
                             return googleMapLocationResult;
-                        if (0 < googleMapLocationResult.getResults().size())
-                            lastAddress =  googleMapLocationResult.getResults().get(0).getFormattedAddress();
-                        else
-                            lastAddress = "";
+                        for (GoogleMapLocationResult.LocationModel locationModel : googleMapLocationResult.getResults()) {
+                            if (locationModel.getFormattedAddress().contains("市") ||
+                                    locationModel.getFormattedAddress().contains("縣"))
+                                lastAddress = locationModel.getFormattedAddress();
+                            return googleMapLocationResult;
+                        }
+                        lastAddress = "經緯度無法解析的地址";
                         return googleMapLocationResult;
                     }
                 })

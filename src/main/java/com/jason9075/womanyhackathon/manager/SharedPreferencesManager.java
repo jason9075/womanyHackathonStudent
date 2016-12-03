@@ -42,5 +42,17 @@ public class SharedPreferencesManager {
                 .apply();
     }
 
+    public String getUserName() {
+        return context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+                .getString(PREF_USER_NAME, "");
+    }
+
+    public void setUserName(String token) {
+        context.getSharedPreferences(PREFERENCE_NAME, Context.MODE_PRIVATE)
+                .edit()
+                .putString(PREF_USER_NAME, token)
+                .apply();
+    }
+
 
 }
