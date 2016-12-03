@@ -1,11 +1,14 @@
 package com.jason9075.womanyhackathon;
 
+import android.content.Intent;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -39,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private DatabaseReference mFirebaseDatabaseReference;
     private CompositeSubscription compositeSubscription = new CompositeSubscription();
 
-    private EditText userNameEdittext;
+    private TextView timeTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +51,14 @@ public class MainActivity extends AppCompatActivity {
         MyApp.getComponents().inject(this);
 
         mFirebaseDatabaseReference = FirebaseDatabase.getInstance().getReference();
-        userNameEdittext = (EditText) findViewById(R.id.user_name_edittext);
-        Button submitButton = (Button) findViewById(R.id.submit_button);
+        timeTextView = (TextView) findViewById(R.id.time_text_view);
+        ImageButton settingButton = (ImageButton) findViewById(R.id.setting_button);
 
-        submitButton.setOnClickListener(new View.OnClickListener() {
+        settingButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pref.setUserName(userNameEdittext.getText().toString());
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -84,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
                             studentLocationData.setLatitude(currentLocation.getLatitude());
                             studentLocationData.setLongitude(currentLocation.getLongitude());
                             studentLocationData.setAddress(RetrofitManager.INSTANCE.getLastAddress());
-                            mFirebaseDatabaseReference.child(STUDENT_LOCATION_TABLE).child(studentLocationData.getId()).setValue(studentLocationData);
+                            mFirebaseDatabaseReference.child(STUDENT_LOCATION_TABLE).push().setValue(studentLocationData);
                         }
                     }
                 });
