@@ -21,12 +21,13 @@
             android:layout_height="match_parent">
 
             <ImageButton
+                android:layout_marginTop="8dp"
                 android:id="@+id/setting_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@color/transparent"
                 android:contentDescription="@string/dummy"
-                android:src="@mipmap/ic_launcher" />
+                android:src="@drawable/setting" />
 
             <TextView
                 android:id="@+id/toolbar_title"
@@ -61,7 +62,7 @@
             android:layout_centerInParent="true"
             android:contentDescription="@string/dummy"
             android:paddingBottom="16dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/portrait" />
 
         <TextView
             android:id="@+id/user_name_textview"
@@ -85,7 +86,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:contentDescription="@string/dummy"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/passag_of_time" />
 
         <LinearLayout
             android:id="@+id/time_layout"
