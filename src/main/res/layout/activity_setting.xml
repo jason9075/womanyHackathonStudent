@@ -111,13 +111,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:layout_marginBottom="36dp">
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/location_small" />
 
         <TextView
             android:layout_width="wrap_content"
